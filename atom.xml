@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://cyberjonas.github.io</id>
     <title>Gridea</title>
-    <updated>2021-02-27T13:08:19.124Z</updated>
+    <updated>2021-05-13T08:37:52.507Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://cyberjonas.github.io"/>
     <link rel="self" href="https://cyberjonas.github.io/atom.xml"/>
@@ -10,6 +10,391 @@
     <logo>https://cyberjonas.github.io/images/avatar.png</logo>
     <icon>https://cyberjonas.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[CMake Tutorial]]></title>
+        <id>https://cyberjonas.github.io/post/cmake-tutorial/</id>
+        <link href="https://cyberjonas.github.io/post/cmake-tutorial/">
+        </link>
+        <updated>2021-03-02T12:26:07.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>cmake_minimum_required(VERSION 3.0.0)
+project(tutorial VERSION 0.1.0)
+
+include(CTest)
+enable_testing()
+
+add_executable(tutorial main.cpp)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+</code></pre>
+<h1 id="1-a-basic-starting-point">1. A Basic Starting Point</h1>
+<p>Create a CMakeLists.txt file that looks like(The most basic project):</p>
+<pre><code>cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name 
+project(tutorial)
+
+# add the executable
+add_executable(tutorial main.c)
+</code></pre>
+<p>Upper, lower, and mixed case commands are supported by CMake.</p>
+<h2 id="adding-a-version-number-and-configured-header-file">Adding a Version Number and Configured Header File</h2>
+<p>adding a version number:</p>
+<pre><code>cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name and version
+project(tutorial VERSION 0.1)
+</code></pre>
+<p>configure a header file:</p>
+<pre><code>configure_file(TutorialConfig.h.in TutorialConfig.h)
+</code></pre>
+<p>search for include files:</p>
+<pre><code>target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           )
+
+</code></pre>
+<h2 id="specify-the-c-standardm">Specify the C++ Standard(M)</h2>
+<pre><code class="language-bash">cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name and version
+project(tutorial VERSION 0.1.0)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+</code></pre>
+<h2 id="build-and-test">Build and Test</h2>
+<p>create a build directory:</p>
+<pre><code>mkdir __build &amp;&amp; cd __build
+cmake .. &amp;&amp; cmake --build .  
+</code></pre>
+<h1 id="2-adding-a-library">2. Adding a Library</h1>
+<p>tree</p>
+<pre><code>├── CMakeLists.txt
+├── MathFunctions
+│   ├── CMakeLists.txt
+│   └── mysqrt.c
+└── tutorial.c
+</code></pre>
+<p>create a shared library, like as libxxx.so:</p>
+<pre><code># /MathFunctions/CMakeLists.txt
+cmake_minimum_required(VERSION 3.0.0)
+project(jonas_strlen VERSION 1.0)
+
+add_library(jonas_strlen SHARED mysqrt.c)
+</code></pre>
+<p>to make use of the new library:</p>
+<pre><code># add the MathFunctions library
+add_subdirectory(MathFunctions)
+
+# add the executable
+add_executable(Tutorial tutorial.cxx)
+
+target_link_libraries(Tutorial PUBLIC MathFunctions)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                          &quot;${PROJECT_BINARY_DIR}&quot;
+                          &quot;${PROJECT_SOURCE_DIR}/MathFunctions&quot;
+                          )
+</code></pre>
+<p>add an option:</p>
+<pre><code>option(USE_MYMATH &quot;Use tutorial provided math implementation&quot; ON)
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file(TutorialConfig.h.in TutorialConfig.h)
+</code></pre>
+<p>the default value can be changed by the user. this setting will be stored in the cache.</p>
+<pre><code>if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+  list(APPEND EXTRA_INCLUDES &quot;${PROJECT_SOURCE_DIR}/MathFunctions&quot;)
+endif()
+
+# add the executable
+add_executable(Tutorial tutorial.cxx)
+
+target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           ${EXTRA_INCLUDES}
+                           )
+</code></pre>
+<p>change to the source code</p>
+<pre><code>#ifdef USE_MYMATH
+#  include &quot;MathFunctions.h&quot;
+#endif
+</code></pre>
+<p>for the same file</p>
+<pre><code>#ifdef USE_MYMATH
+  const double outputValue = mysqrt(inputValue);
+#else
+  const double outputValue = sqrt(inputValue);
+#endif
+</code></pre>
+<p>change to TutorialConfig.h.in</p>
+<pre><code>#cmakedefine USE_MYMATH
+</code></pre>
+<p>rebuild and run</p>
+<pre><code>rm -rf __build
+mkdir __build &amp;&amp; cd __build
+cmake .. -DUSE_MYMATH=ON &amp;&amp; cmake --build . 
+./Tutorial
+</code></pre>
+<h1 id="3-adding-usage-requirements-for-library">3. Adding Usage Requirements for Library</h1>
+<p>add the following line to the end of MathFunctions/CMakeLists.txt:</p>
+<pre><code>target_include_directories(MathFunctions
+          INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+          )
+</code></pre>
+<p>remove uses of the EXTRA_INCLUDES variable from the top-level CMakeLists.txt:</p>
+<pre><code>if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+endif()
+</code></pre>
+<p>and here:</p>
+<pre><code>target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           )
+</code></pre>
+<h1 id="4-installing-and-testing">4. Installing and Testing</h1>
+<h2 id="install-rules">Install Rules</h2>
+<p>add to the end of MathFunctions/CMakeLists.txt:</p>
+<pre><code>install(TARGETS MathFunctions DESTINATION lib)
+install(FILES MathFunctions.h DESTINATION include)
+</code></pre>
+<p>and to the end of the top-level CMakeLists.txt we add:</p>
+<pre><code>install(TARGETS Tutorial DESTINATION bin)
+install(FILES &quot;${PROJECT_BINARY_DIR}/TutorialConfig.h&quot;
+  DESTINATION include
+  )
+</code></pre>
+<p>shell</p>
+<pre><code>cmake --install . --prefix &quot;/home/myuser/installdir&quot;
+</code></pre>
+<h2 id="testing-support">Testing Support</h2>
+<h1 id="5-adding-system-introspection">5. Adding System Introspection</h1>
+<h1 id="6-adding-a-custom-command-and-generated-file">6. Adding a Custom Command and Generated File</h1>
+<h1 id="7-building-an-installer">7. Building an Installer</h1>
+<h1 id="8-adding-support-for-a-dashboad">8. Adding Support for a Dashboad</h1>
+<h1 id="9-mixing-static-and-shared">9. Mixing Static and Shared</h1>
+<h1 id="10-adding-generator-expressions">10. Adding Generator Expressions</h1>
+<h1 id="11-adding-export-configuration">11. Adding Export Configuration</h1>
+<h1 id="12-packaging-debug-and-release">12. Packaging Debug and Release</h1>
+<p><a href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">https://cmake.org/cmake/help/latest/guide/tutorial/index.html</a><br>
+<a href="https://www.hahack.com/codes/cmake/">https://www.hahack.com/codes/cmake/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Embedded Linux device using GDB]]></title>
+        <id>https://cyberjonas.github.io/post/embedded-linux-device-using-gdb/</id>
+        <link href="https://cyberjonas.github.io/post/embedded-linux-device-using-gdb/">
+        </link>
+        <updated>2021-03-02T01:38:18.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1-getting-the-code">1. Getting the code</h1>
+<p>via<a href="http://ftp.gnu.org/gnu/gdb/">FTP</a>, git and <a href="https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git">WWW</a>.</p>
+<pre><code class="language-bash">git clone git://sourceware.org/git/binutils-gdb.git
+</code></pre>
+<h1 id="2-building-gdb-and-gdbserver-for-cross-debugging">2. Building GDB and GDBserver for cross debugging</h1>
+<p>GDB runs on host system, the x86_64 GNU/Linux machine, while GDBserver runs on the target, the ARM GNU/Linux board/machine.</p>
+<h2 id="21-for-gdb">2.1 For GDB</h2>
+<p>GDB runs on x86.</p>
+<pre><code class="language-bash">gdb$  ./configure --target=arm-none-linux-gnueabihf
+</code></pre>
+<h2 id="22-for-gdbserver">2.2 For GDBserver</h2>
+<p>GDBserver runs on the ARM machine.</p>
+<pre><code class="language-bash">gdb$  ./gdbserver/configure --host=arm-none-linux-gnueabihf
+</code></pre>
+<h1 id="3-running-via-gdb">3. Running via GDB</h1>
+<h2 id="31-arm-machine">3.1 ARM machine</h2>
+<pre><code>gdbserver 192.168.43.218:12233 tutorial
+</code></pre>
+<h2 id="32-host-pc">3.2 Host PC</h2>
+<pre><code>arm-none-linux-gnueabihf-gdb -q tutorial
+target remote 192.168.43.106:12233
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ZLG M6G2C]]></title>
+        <id>https://cyberjonas.github.io/post/zlg-m6g2c/</id>
+        <link href="https://cyberjonas.github.io/post/zlg-m6g2c/">
+        </link>
+        <updated>2021-03-01T05:10:38.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://manual.zlg.cn/Public/Uploads/2019-11-01/5dbc0741d7277.jpg" alt="IoT-^G2C-L.png" loading="lazy"></figure>
+<h1 id="pin">PIN</h1>
+<p>lcd</p>
+<table>
+<thead>
+<tr>
+<th>pin</th>
+<th>label</th>
+<th>default</th>
+<th>chip</th>
+<th>sort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>SCK</td>
+<td>SCK</td>
+<td>GPIO4_25</td>
+<td>121</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>SS0</td>
+<td>CS</td>
+<td>GPIO4_26</td>
+<td>122</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>MOSI</td>
+<td>SDA</td>
+<td>GPIO4_27</td>
+<td>123</td>
+</tr>
+<tr>
+<td>xB11</td>
+<td>P3_4</td>
+<td>D/C</td>
+<td>GPIO3_4</td>
+<td>68</td>
+</tr>
+<tr>
+<td>B12</td>
+<td>P5_6</td>
+<td>RST</td>
+<td>GPIO5_6</td>
+<td>134</td>
+</tr>
+<tr>
+<td>xB9</td>
+<td>UART8_RX</td>
+<td>BL</td>
+<td>GPIO3_26</td>
+<td>90</td>
+</tr>
+</tbody>
+</table>
+<p>led</p>
+<table>
+<thead>
+<tr>
+<th>pin</th>
+<th>label</th>
+<th>default</th>
+<th>chip</th>
+<th>sort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xB14</td>
+<td>UART6_TX</td>
+<td>COM</td>
+<td>GPIO4_17</td>
+<td>113</td>
+</tr>
+<tr>
+<td>xB10</td>
+<td>UART8_TX</td>
+<td>RUN</td>
+<td>GPIO3_25</td>
+<td>89</td>
+</tr>
+<tr>
+<td>B13</td>
+<td>UART6_RX</td>
+<td>NET</td>
+<td>GPIO4_18</td>
+<td>114</td>
+</tr>
+<tr>
+<td>xB15</td>
+<td>I2C_SDA</td>
+<td>ALA</td>
+<td>GPIO5_8</td>
+<td>136</td>
+</tr>
+</tbody>
+</table>
+<p>button</p>
+<table>
+<thead>
+<tr>
+<th>pin</th>
+<th>label</th>
+<th>default</th>
+<th>chip</th>
+<th>sort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A20</td>
+<td>UART2_TX</td>
+<td>KEY1</td>
+<td>GPIO1_20</td>
+<td>20</td>
+</tr>
+<tr>
+<td>B23</td>
+<td>HPL</td>
+<td>KEY2</td>
+<td>GPIO3_28</td>
+<td>92</td>
+</tr>
+<tr>
+<td>B24</td>
+<td>HPR</td>
+<td>KEY3</td>
+<td>GPIO3_27</td>
+<td>91</td>
+</tr>
+<tr>
+<td>xB19</td>
+<td>ADC_CH9</td>
+<td>KEY4</td>
+<td>GPIO1_9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>B20</td>
+<td>ADC_CH8</td>
+<td>KEY5</td>
+<td>GPIO1_8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>B16</td>
+<td>I2C_SCL</td>
+<td>KEY6</td>
+<td>GPIO5_7</td>
+<td>135</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://blog.pentesteracademy.com/booting-an-emulated-arm-device-using-tftp-and-u-boot-6f6868cccd14">1.Booting an Emulated ARM device using TFTP and U-Boot</a></p>
+<p><a href="http://wiki.macchiatobin.net/tiki-index.php?page=Use+network+in+U-Boot">2.Use network in U-Boot</a></p>
+<p>set proxy</p>
+<pre><code class="language-bash">git config --global http.proxy 'socks5h://127.0.0.1:1089'
+git config --global --unset http.proxy
+</code></pre>
+<p>Cn1QX1FbNh4AAAAAAAAAD69fMi7zh4vdPU0nGPLTrVs</p>
+<p>https://itsfoss.com/backup-restore-linux-timeshift/</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://cyberjonas.github.io/post/hello-gridea/</id>
