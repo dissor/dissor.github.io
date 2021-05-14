@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dissor.github.io</id>
-    <title>Gridea</title>
-    <updated>2021-05-14T00:44:12.491Z</updated>
+    <title>物联指北</title>
+    <updated>2021-05-14T00:48:37.009Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dissor.github.io"/>
     <link rel="self" href="https://dissor.github.io/atom.xml"/>
-    <subtitle>Jonas&apos;s blog</subtitle>
+    <subtitle>嵌入式物联技术记录</subtitle>
     <logo>https://dissor.github.io/images/avatar.png</logo>
     <icon>https://dissor.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Gridea</rights>
+    <rights>All rights reserved 2021, 物联指北</rights>
     <entry>
         <title type="html"><![CDATA[CMake Tutorial]]></title>
         <id>https://dissor.github.io/post/cmake-tutorial/</id>
