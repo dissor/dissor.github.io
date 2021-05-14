@@ -1,0 +1,438 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>物联指北</title>
+<meta name="description" content="嵌入式物联技术记录" />
+<link rel="shortcut icon" href="https://dissor.github.io/favicon.ico?v=1620953363411">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://dissor.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://dissor.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://dissor.github.io/images/avatar.png?v=1620953363411" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">物联指北</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#1-a-basic-starting-point">1. A Basic Starting Point</a>
+<ul>
+<li><a href="#adding-a-version-number-and-configured-header-file">Adding a Version Number and Configured Header File</a></li>
+<li><a href="#specify-the-c-standardm">Specify the C++ Standard(M)</a></li>
+<li><a href="#build-and-test">Build and Test</a></li>
+</ul>
+</li>
+<li><a href="#2-adding-a-library">2. Adding a Library</a></li>
+<li><a href="#3-adding-usage-requirements-for-library">3. Adding Usage Requirements for Library</a></li>
+<li><a href="#4-installing-and-testing">4. Installing and Testing</a>
+<ul>
+<li><a href="#install-rules">Install Rules</a></li>
+<li><a href="#testing-support">Testing Support</a></li>
+</ul>
+</li>
+<li><a href="#5-adding-system-introspection">5. Adding System Introspection</a></li>
+<li><a href="#6-adding-a-custom-command-and-generated-file">6. Adding a Custom Command and Generated File</a></li>
+<li><a href="#7-building-an-installer">7. Building an Installer</a></li>
+<li><a href="#8-adding-support-for-a-dashboad">8. Adding Support for a Dashboad</a></li>
+<li><a href="#9-mixing-static-and-shared">9. Mixing Static and Shared</a></li>
+<li><a href="#10-adding-generator-expressions">10. Adding Generator Expressions</a></li>
+<li><a href="#11-adding-export-configuration">11. Adding Export Configuration</a></li>
+<li><a href="#12-packaging-debug-and-release">12. Packaging Debug and Release</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://dissor.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">CMake Tutorial</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-03-02 / 4 min read
+        </div>
+        
+        <div class="post-content yue">
+          <pre><code>cmake_minimum_required(VERSION 3.0.0)
+project(tutorial VERSION 0.1.0)
+
+include(CTest)
+enable_testing()
+
+add_executable(tutorial main.cpp)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+</code></pre>
+<h1 id="1-a-basic-starting-point">1. A Basic Starting Point</h1>
+<p>Create a CMakeLists.txt file that looks like(The most basic project):</p>
+<pre><code>cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name 
+project(tutorial)
+
+# add the executable
+add_executable(tutorial main.c)
+</code></pre>
+<p>Upper, lower, and mixed case commands are supported by CMake.</p>
+<h2 id="adding-a-version-number-and-configured-header-file">Adding a Version Number and Configured Header File</h2>
+<p>adding a version number:</p>
+<pre><code>cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name and version
+project(tutorial VERSION 0.1)
+</code></pre>
+<p>configure a header file:</p>
+<pre><code>configure_file(TutorialConfig.h.in TutorialConfig.h)
+</code></pre>
+<p>search for include files:</p>
+<pre><code>target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           )
+
+</code></pre>
+<h2 id="specify-the-c-standardm">Specify the C++ Standard(M)</h2>
+<pre><code class="language-bash">cmake_minimum_required(VERSION 3.0.0)
+
+# set the project name and version
+project(tutorial VERSION 0.1.0)
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+</code></pre>
+<h2 id="build-and-test">Build and Test</h2>
+<p>create a build directory:</p>
+<pre><code>mkdir __build &amp;&amp; cd __build
+cmake .. &amp;&amp; cmake --build .  
+</code></pre>
+<h1 id="2-adding-a-library">2. Adding a Library</h1>
+<p>tree</p>
+<pre><code>├── CMakeLists.txt
+├── MathFunctions
+│   ├── CMakeLists.txt
+│   └── mysqrt.c
+└── tutorial.c
+</code></pre>
+<p>create a shared library, like as libxxx.so:</p>
+<pre><code># /MathFunctions/CMakeLists.txt
+cmake_minimum_required(VERSION 3.0.0)
+project(jonas_strlen VERSION 1.0)
+
+add_library(jonas_strlen SHARED mysqrt.c)
+</code></pre>
+<p>to make use of the new library:</p>
+<pre><code># add the MathFunctions library
+add_subdirectory(MathFunctions)
+
+# add the executable
+add_executable(Tutorial tutorial.cxx)
+
+target_link_libraries(Tutorial PUBLIC MathFunctions)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                          &quot;${PROJECT_BINARY_DIR}&quot;
+                          &quot;${PROJECT_SOURCE_DIR}/MathFunctions&quot;
+                          )
+</code></pre>
+<p>add an option:</p>
+<pre><code>option(USE_MYMATH &quot;Use tutorial provided math implementation&quot; ON)
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+configure_file(TutorialConfig.h.in TutorialConfig.h)
+</code></pre>
+<p>the default value can be changed by the user. this setting will be stored in the cache.</p>
+<pre><code>if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+  list(APPEND EXTRA_INCLUDES &quot;${PROJECT_SOURCE_DIR}/MathFunctions&quot;)
+endif()
+
+# add the executable
+add_executable(Tutorial tutorial.cxx)
+
+target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           ${EXTRA_INCLUDES}
+                           )
+</code></pre>
+<p>change to the source code</p>
+<pre><code>#ifdef USE_MYMATH
+#  include &quot;MathFunctions.h&quot;
+#endif
+</code></pre>
+<p>for the same file</p>
+<pre><code>#ifdef USE_MYMATH
+  const double outputValue = mysqrt(inputValue);
+#else
+  const double outputValue = sqrt(inputValue);
+#endif
+</code></pre>
+<p>change to TutorialConfig.h.in</p>
+<pre><code>#cmakedefine USE_MYMATH
+</code></pre>
+<p>rebuild and run</p>
+<pre><code>rm -rf __build
+mkdir __build &amp;&amp; cd __build
+cmake .. -DUSE_MYMATH=ON &amp;&amp; cmake --build . 
+./Tutorial
+</code></pre>
+<h1 id="3-adding-usage-requirements-for-library">3. Adding Usage Requirements for Library</h1>
+<p>add the following line to the end of MathFunctions/CMakeLists.txt:</p>
+<pre><code>target_include_directories(MathFunctions
+          INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+          )
+</code></pre>
+<p>remove uses of the EXTRA_INCLUDES variable from the top-level CMakeLists.txt:</p>
+<pre><code>if(USE_MYMATH)
+  add_subdirectory(MathFunctions)
+  list(APPEND EXTRA_LIBS MathFunctions)
+endif()
+</code></pre>
+<p>and here:</p>
+<pre><code>target_include_directories(Tutorial PUBLIC
+                           &quot;${PROJECT_BINARY_DIR}&quot;
+                           )
+</code></pre>
+<h1 id="4-installing-and-testing">4. Installing and Testing</h1>
+<h2 id="install-rules">Install Rules</h2>
+<p>add to the end of MathFunctions/CMakeLists.txt:</p>
+<pre><code>install(TARGETS MathFunctions DESTINATION lib)
+install(FILES MathFunctions.h DESTINATION include)
+</code></pre>
+<p>and to the end of the top-level CMakeLists.txt we add:</p>
+<pre><code>install(TARGETS Tutorial DESTINATION bin)
+install(FILES &quot;${PROJECT_BINARY_DIR}/TutorialConfig.h&quot;
+  DESTINATION include
+  )
+</code></pre>
+<p>shell</p>
+<pre><code>cmake --install . --prefix &quot;/home/myuser/installdir&quot;
+</code></pre>
+<h2 id="testing-support">Testing Support</h2>
+<h1 id="5-adding-system-introspection">5. Adding System Introspection</h1>
+<h1 id="6-adding-a-custom-command-and-generated-file">6. Adding a Custom Command and Generated File</h1>
+<h1 id="7-building-an-installer">7. Building an Installer</h1>
+<h1 id="8-adding-support-for-a-dashboad">8. Adding Support for a Dashboad</h1>
+<h1 id="9-mixing-static-and-shared">9. Mixing Static and Shared</h1>
+<h1 id="10-adding-generator-expressions">10. Adding Generator Expressions</h1>
+<h1 id="11-adding-export-configuration">11. Adding Export Configuration</h1>
+<h1 id="12-packaging-debug-and-release">12. Packaging Debug and Release</h1>
+<p><a href="https://cmake.org/cmake/help/latest/guide/tutorial/index.html">https://cmake.org/cmake/help/latest/guide/tutorial/index.html</a><br>
+<a href="https://www.hahack.com/codes/cmake/">https://www.hahack.com/codes/cmake/</a></p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://dissor.github.io/embedded-linux-device-using-gdb/">
+                <h3 class="post-title">
+                  Embedded Linux device using GDB
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '694c0016224be4631730',
+    clientSecret: '5457f28c172441bb0067c1bf0cb121706b577f1c',
+    repo: 'CyberJonas.github.io',
+    owner: 'CyberJonas',
+    admin: ['CyberJonas'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://dissor.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

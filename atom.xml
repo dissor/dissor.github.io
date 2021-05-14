@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dissor.github.io</id>
     <title>物联指北</title>
-    <updated>2021-05-14T00:48:37.009Z</updated>
+    <updated>2021-05-14T00:50:25.651Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dissor.github.io"/>
     <link rel="self" href="https://dissor.github.io/atom.xml"/>
@@ -12,8 +12,8 @@
     <rights>All rights reserved 2021, 物联指北</rights>
     <entry>
         <title type="html"><![CDATA[CMake Tutorial]]></title>
-        <id>https://dissor.github.io/post/cmake-tutorial/</id>
-        <link href="https://dissor.github.io/post/cmake-tutorial/">
+        <id>https://dissor.github.io/cmake-tutorial/</id>
+        <link href="https://dissor.github.io/cmake-tutorial/">
         </link>
         <updated>2021-03-02T12:26:07.000Z</updated>
         <content type="html"><![CDATA[<pre><code>cmake_minimum_required(VERSION 3.0.0)
@@ -195,8 +195,8 @@ install(FILES &quot;${PROJECT_BINARY_DIR}/TutorialConfig.h&quot;
     </entry>
     <entry>
         <title type="html"><![CDATA[Embedded Linux device using GDB]]></title>
-        <id>https://dissor.github.io/post/embedded-linux-device-using-gdb/</id>
-        <link href="https://dissor.github.io/post/embedded-linux-device-using-gdb/">
+        <id>https://dissor.github.io/embedded-linux-device-using-gdb/</id>
+        <link href="https://dissor.github.io/embedded-linux-device-using-gdb/">
         </link>
         <updated>2021-03-02T01:38:18.000Z</updated>
         <content type="html"><![CDATA[<h1 id="1-getting-the-code">1. Getting the code</h1>
@@ -225,8 +225,8 @@ target remote 192.168.43.106:12233
     </entry>
     <entry>
         <title type="html"><![CDATA[ZLG M6G2C]]></title>
-        <id>https://dissor.github.io/post/zlg-m6g2c/</id>
-        <link href="https://dissor.github.io/post/zlg-m6g2c/">
+        <id>https://dissor.github.io/zlg-m6g2c/</id>
+        <link href="https://dissor.github.io/zlg-m6g2c/">
         </link>
         <updated>2021-03-01T05:10:38.000Z</updated>
         <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://manual.zlg.cn/Public/Uploads/2019-11-01/5dbc0741d7277.jpg" alt="IoT-^G2C-L.png" loading="lazy"></figure>
@@ -397,8 +397,8 @@ git config --global --unset http.proxy
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://dissor.github.io/post/hello-gridea/</id>
-        <link href="https://dissor.github.io/post/hello-gridea/">
+        <id>https://dissor.github.io/hello-gridea/</id>
+        <link href="https://dissor.github.io/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>

@@ -16,7 +16,7 @@
 
   </head>
   <body>
-    <div class="main px-4 flex flex-col lg:flex-row">
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
       <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
   <div class="lg:sticky top-0">
     <div class="sidebar-content">
@@ -30,30 +30,25 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            嵌入式物联技术记录
+            文章目录
           </p>
-          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
-              
-            
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#1-getting-the-code">1. Getting the code</a></li>
+<li><a href="#2-building-gdb-and-gdbserver-for-cross-debugging">2. Building GDB and GDBserver for cross debugging</a>
+<ul>
+<li><a href="#21-for-gdb">2.1 For GDB</a></li>
+<li><a href="#22-for-gdbserver">2.2 For GDBserver</a></li>
+</ul>
+</li>
+<li><a href="#3-running-via-gdb">3. Running via GDB</a>
+<ul>
+<li><a href="#31-arm-machine">3.1 ARM machine</a></li>
+<li><a href="#32-host-pc">3.2 Host PC</a></li>
+</ul>
+</li>
+</ul>
+
           </div>
         </div>
       
@@ -97,81 +92,93 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
-        <h2 class="latest-article text-lg text-gray-700 mb-8">
-          <i class="ri-article-line"></i>
-          最新文章
-        </h2>
-        
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
-    
-    <div class="content">
-      <a href="https://dissor.github.io/cmake-tutorial/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">CMake Tutorial</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        
-      </div>
-      <div class="text-gray-400 text-sm font-light">2021-03-02 / 4 min read</div>
-    </div>
-  </section>
-
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${1 * 0.2}s` }">
-    
-    <div class="content">
-      <a href="https://dissor.github.io/embedded-linux-device-using-gdb/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">Embedded Linux device using GDB</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        
-      </div>
-      <div class="text-gray-400 text-sm font-light">2021-03-02 / 1 min read</div>
-    </div>
-  </section>
-
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${2 * 0.2}s` }">
-    
-    <div class="content">
-      <a href="https://dissor.github.io/zlg-m6g2c/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">ZLG M6G2C</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        
-      </div>
-      <div class="text-gray-400 text-sm font-light">2021-03-01 / 1 min read</div>
-    </div>
-  </section>
-
-  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${3 * 0.2}s` }">
-    
-      <a href="https://dissor.github.io/hello-gridea/" class="feature-image-wrapper bg-gray-100 rounded-lg flex-shrink-0 mr-8 w-full h-56 h-32 md:w-56 md:h-40">
-        <div class="post-feature-image lazy w-full h-56 h-32 md:w-56 md:h-40" data-bg="'https://dissor.github.io/post-images/hello-gridea.png'">
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Embedded Linux device using GDB</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-03-02 / 1 min read
         </div>
-      </a>
-    
-    <div class="content">
-      <a href="https://dissor.github.io/hello-gridea/">
-        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">Hello Gridea</h2>
-      </a>
-      <div class="post-abstract text-gray-700 font-light my-4">
-        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+        
+        <div class="post-content yue">
+          <h1 id="1-getting-the-code">1. Getting the code</h1>
+<p>via<a href="http://ftp.gnu.org/gnu/gdb/">FTP</a>, git and <a href="https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git">WWW</a>.</p>
+<pre><code class="language-bash">git clone git://sourceware.org/git/binutils-gdb.git
+</code></pre>
+<h1 id="2-building-gdb-and-gdbserver-for-cross-debugging">2. Building GDB and GDBserver for cross debugging</h1>
+<p>GDB runs on host system, the x86_64 GNU/Linux machine, while GDBserver runs on the target, the ARM GNU/Linux board/machine.</p>
+<h2 id="21-for-gdb">2.1 For GDB</h2>
+<p>GDB runs on x86.</p>
+<pre><code class="language-bash">gdb$  ./configure --target=arm-none-linux-gnueabihf
+</code></pre>
+<h2 id="22-for-gdbserver">2.2 For GDBserver</h2>
+<p>GDBserver runs on the ARM machine.</p>
+<pre><code class="language-bash">gdb$  ./gdbserver/configure --host=arm-none-linux-gnueabihf
+</code></pre>
+<h1 id="3-running-via-gdb">3. Running via GDB</h1>
+<h2 id="31-arm-machine">3.1 ARM machine</h2>
+<pre><code>gdbserver 192.168.43.218:12233 tutorial
+</code></pre>
+<h2 id="32-host-pc">3.2 Host PC</h2>
+<pre><code>arm-none-linux-gnueabihf-gdb -q tutorial
+target remote 192.168.43.106:12233
+</code></pre>
 
-      </div>
-      <div class="text-gray-400 text-sm font-light">2018-12-12 / 2 min read</div>
-    </div>
-  </section>
+        </div>
 
-        <div class="read-more">
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://dissor.github.io/cmake-tutorial/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  CMake Tutorial
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://dissor.github.io/zlg-m6g2c/">
+                <h3 class="post-title">
+                  ZLG M6G2C
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
           
         </div>
-        <div class="index-page">
-          <div class="pagination-container animated fadeIn">
-  
-  
-</div>
 
-        </div>
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '694c0016224be4631730',
+    clientSecret: '5457f28c172441bb0067c1bf0cb121706b577f1c',
+    repo: 'CyberJonas.github.io',
+    owner: 'CyberJonas',
+    admin: ['CyberJonas'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
       </div>
     </div>
 
