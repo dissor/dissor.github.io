@@ -34,7 +34,10 @@
           </p>
           <div class="toc-container hidden lg:block">
             <ul class="markdownIt-TOC">
-<li><a href="#pin">PIN</a></li>
+<li><a href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87">学习目标：</a></li>
+<li><a href="#%E5%AD%A6%E4%B9%A0%E5%86%85%E5%AE%B9">学习内容：</a></li>
+<li><a href="#%E5%AD%A6%E4%B9%A0%E6%97%B6%E9%97%B4">学习时间：</a></li>
+<li><a href="#%E5%AD%A6%E4%B9%A0%E4%BA%A7%E5%87%BA">学习产出：</a></li>
 </ul>
 
           </div>
@@ -81,192 +84,45 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">周立功 Linux 开发板使用教程（ZLG M6G2C）</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">学习模板</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2021-03-01 / 1 min read
+          2021-05-14 / 1 min read
         </div>
         
         <div class="post-content yue">
-          <figure data-type="image" tabindex="1"><img src="https://manual.zlg.cn/Public/Uploads/2019-11-01/5dbc0741d7277.jpg" alt="IoT-^G2C-L.png" loading="lazy"></figure>
-<h1 id="pin">PIN</h1>
-<p>lcd</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A1</td>
-<td>SCK</td>
-<td>SCK</td>
-<td>GPIO4_25</td>
-<td>121</td>
-</tr>
-<tr>
-<td>A2</td>
-<td>SS0</td>
-<td>CS</td>
-<td>GPIO4_26</td>
-<td>122</td>
-</tr>
-<tr>
-<td>A4</td>
-<td>MOSI</td>
-<td>SDA</td>
-<td>GPIO4_27</td>
-<td>123</td>
-</tr>
-<tr>
-<td>xB11</td>
-<td>P3_4</td>
-<td>D/C</td>
-<td>GPIO3_4</td>
-<td>68</td>
-</tr>
-<tr>
-<td>B12</td>
-<td>P5_6</td>
-<td>RST</td>
-<td>GPIO5_6</td>
-<td>134</td>
-</tr>
-<tr>
-<td>xB9</td>
-<td>UART8_RX</td>
-<td>BL</td>
-<td>GPIO3_26</td>
-<td>90</td>
-</tr>
-</tbody>
-</table>
-<p>led</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>xB14</td>
-<td>UART6_TX</td>
-<td>COM</td>
-<td>GPIO4_17</td>
-<td>113</td>
-</tr>
-<tr>
-<td>xB10</td>
-<td>UART8_TX</td>
-<td>RUN</td>
-<td>GPIO3_25</td>
-<td>89</td>
-</tr>
-<tr>
-<td>B13</td>
-<td>UART6_RX</td>
-<td>NET</td>
-<td>GPIO4_18</td>
-<td>114</td>
-</tr>
-<tr>
-<td>xB15</td>
-<td>I2C_SDA</td>
-<td>ALA</td>
-<td>GPIO5_8</td>
-<td>136</td>
-</tr>
-</tbody>
-</table>
-<p>button</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A20</td>
-<td>UART2_TX</td>
-<td>KEY1</td>
-<td>GPIO1_20</td>
-<td>20</td>
-</tr>
-<tr>
-<td>B23</td>
-<td>HPL</td>
-<td>KEY2</td>
-<td>GPIO3_28</td>
-<td>92</td>
-</tr>
-<tr>
-<td>B24</td>
-<td>HPR</td>
-<td>KEY3</td>
-<td>GPIO3_27</td>
-<td>91</td>
-</tr>
-<tr>
-<td>xB19</td>
-<td>ADC_CH9</td>
-<td>KEY4</td>
-<td>GPIO1_9</td>
-<td>9</td>
-</tr>
-<tr>
-<td>B20</td>
-<td>ADC_CH8</td>
-<td>KEY5</td>
-<td>GPIO1_8</td>
-<td>8</td>
-</tr>
-<tr>
-<td>B16</td>
-<td>I2C_SCL</td>
-<td>KEY6</td>
-<td>GPIO5_7</td>
-<td>135</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://blog.pentesteracademy.com/booting-an-emulated-arm-device-using-tftp-and-u-boot-6f6868cccd14">1.Booting an Emulated ARM device using TFTP and U-Boot</a></p>
-<p><a href="http://wiki.macchiatobin.net/tiki-index.php?page=Use+network+in+U-Boot">2.Use network in U-Boot</a></p>
-<p>set proxy</p>
-<pre><code class="language-bash">git config --global http.proxy 'socks5h://127.0.0.1:1089'
-git config --global --unset http.proxy
-</code></pre>
-<p>Cn1QX1FbNh4AAAAAAAAAD69fMi7zh4vdPU0nGPLTrVs</p>
-<p>https://itsfoss.com/backup-restore-linux-timeshift/</p>
+          <h1 id="学习目标">学习目标：</h1>
+<p><font color=#999AAA >提示：这里可以添加学习目标<br>
+例如：一周掌握 Java 入门知识</p>
+<h1 id="学习内容">学习内容：</h1>
+<p><font color=#999AAA >提示：这里可以添加要学的内容<br>
+例如：<br>
+1、 搭建 Java 开发环境<br>
+2、 掌握 Java 基本语法<br>
+3、 掌握条件语句<br>
+4、 掌握循环语句</p>
+<h1 id="学习时间">学习时间：</h1>
+<p><font color=#999AAA >提示：这里可以添加计划学习的时间<br>
+例如：<br>
+1、 周一至周五晚上 7 点—晚上9点<br>
+2、 周六上午 9 点-上午 11 点<br>
+3、 周日下午 3 点-下午 6 点</p>
+<h1 id="学习产出">学习产出：</h1>
+<p><font color=#999AAA >提示：这里统计学习计划的总量<br>
+例如：<br>
+1、 技术笔记 2 遍<br>
+2、CSDN 技术博客 3 篇<br>
+3、 学习的 vlog 视频 1 个</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://dissor.github.io/4I0SsUVUQ/">
+            <span class="flex-auto">DEMO</span>
+          </a>
         
 
 
         <div class="flex justify-between py-8">
-          
-            <div class="prev-post">
-              <a href="https://dissor.github.io/embedded-linux-device-using-gdb/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  嵌入式 Linux 中使用 GDB 工具（Embedded Linux device using GDB）
-                </h3>
-              </a>
-            </div>
           
 
           

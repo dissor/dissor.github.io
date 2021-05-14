@@ -34,7 +34,10 @@
           </p>
           <div class="toc-container hidden lg:block">
             <ul class="markdownIt-TOC">
-<li><a href="#pin">PIN</a></li>
+<li><a href="#%E9%A1%B9%E7%9B%AE%E5%9C%BA%E6%99%AF">项目场景：</a></li>
+<li><a href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0">问题描述：</a></li>
+<li><a href="#%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90">原因分析：</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案：</a></li>
 </ul>
 
           </div>
@@ -81,192 +84,43 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">周立功 Linux 开发板使用教程（ZLG M6G2C）</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">BUG 记录模板</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2021-03-01 / 1 min read
+          2021-05-14 / 1 min read
         </div>
         
         <div class="post-content yue">
-          <figure data-type="image" tabindex="1"><img src="https://manual.zlg.cn/Public/Uploads/2019-11-01/5dbc0741d7277.jpg" alt="IoT-^G2C-L.png" loading="lazy"></figure>
-<h1 id="pin">PIN</h1>
-<p>lcd</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A1</td>
-<td>SCK</td>
-<td>SCK</td>
-<td>GPIO4_25</td>
-<td>121</td>
-</tr>
-<tr>
-<td>A2</td>
-<td>SS0</td>
-<td>CS</td>
-<td>GPIO4_26</td>
-<td>122</td>
-</tr>
-<tr>
-<td>A4</td>
-<td>MOSI</td>
-<td>SDA</td>
-<td>GPIO4_27</td>
-<td>123</td>
-</tr>
-<tr>
-<td>xB11</td>
-<td>P3_4</td>
-<td>D/C</td>
-<td>GPIO3_4</td>
-<td>68</td>
-</tr>
-<tr>
-<td>B12</td>
-<td>P5_6</td>
-<td>RST</td>
-<td>GPIO5_6</td>
-<td>134</td>
-</tr>
-<tr>
-<td>xB9</td>
-<td>UART8_RX</td>
-<td>BL</td>
-<td>GPIO3_26</td>
-<td>90</td>
-</tr>
-</tbody>
-</table>
-<p>led</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>xB14</td>
-<td>UART6_TX</td>
-<td>COM</td>
-<td>GPIO4_17</td>
-<td>113</td>
-</tr>
-<tr>
-<td>xB10</td>
-<td>UART8_TX</td>
-<td>RUN</td>
-<td>GPIO3_25</td>
-<td>89</td>
-</tr>
-<tr>
-<td>B13</td>
-<td>UART6_RX</td>
-<td>NET</td>
-<td>GPIO4_18</td>
-<td>114</td>
-</tr>
-<tr>
-<td>xB15</td>
-<td>I2C_SDA</td>
-<td>ALA</td>
-<td>GPIO5_8</td>
-<td>136</td>
-</tr>
-</tbody>
-</table>
-<p>button</p>
-<table>
-<thead>
-<tr>
-<th>pin</th>
-<th>label</th>
-<th>default</th>
-<th>chip</th>
-<th>sort</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A20</td>
-<td>UART2_TX</td>
-<td>KEY1</td>
-<td>GPIO1_20</td>
-<td>20</td>
-</tr>
-<tr>
-<td>B23</td>
-<td>HPL</td>
-<td>KEY2</td>
-<td>GPIO3_28</td>
-<td>92</td>
-</tr>
-<tr>
-<td>B24</td>
-<td>HPR</td>
-<td>KEY3</td>
-<td>GPIO3_27</td>
-<td>91</td>
-</tr>
-<tr>
-<td>xB19</td>
-<td>ADC_CH9</td>
-<td>KEY4</td>
-<td>GPIO1_9</td>
-<td>9</td>
-</tr>
-<tr>
-<td>B20</td>
-<td>ADC_CH8</td>
-<td>KEY5</td>
-<td>GPIO1_8</td>
-<td>8</td>
-</tr>
-<tr>
-<td>B16</td>
-<td>I2C_SCL</td>
-<td>KEY6</td>
-<td>GPIO5_7</td>
-<td>135</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://blog.pentesteracademy.com/booting-an-emulated-arm-device-using-tftp-and-u-boot-6f6868cccd14">1.Booting an Emulated ARM device using TFTP and U-Boot</a></p>
-<p><a href="http://wiki.macchiatobin.net/tiki-index.php?page=Use+network+in+U-Boot">2.Use network in U-Boot</a></p>
-<p>set proxy</p>
-<pre><code class="language-bash">git config --global http.proxy 'socks5h://127.0.0.1:1089'
-git config --global --unset http.proxy
+          <h1 id="项目场景">项目场景：</h1>
+<p><font color=#999AAA >提示：这里简述项目相关背景：<br>
+例如：项目场景：示例:通过蓝牙芯片(HC-05)与手机 APP 通信，每隔 5s 传输一批传感器数据(不是很大)</font></p>
+<h1 id="问题描述">问题描述：</h1>
+<p><font color=#999AAA >提示：这里描述项目中遇到的问题：<br>
+例如：数据传输过程中数据不时出现丢失的情况，偶尔会丢失一部分数据<br>
+APP 中接收数据代码：</p>
+<pre><code class="language-c">@Override
+        public void run() {
+            bytes = mmInStream.read(buffer);
+            mHandler.obtainMessage(READ_DATA, bytes, -1, buffer).sendToTarget();
+        }
 </code></pre>
-<p>Cn1QX1FbNh4AAAAAAAAAD69fMi7zh4vdPU0nGPLTrVs</p>
-<p>https://itsfoss.com/backup-restore-linux-timeshift/</p>
+ </font>
+<h1 id="原因分析">原因分析：</h1>
+<p><font color=#999AAA >提示：这里填写问题的分析：<br>
+例如：Handler 发送消息有两种方式，分别是 Handler.obtainMessage()和 Handler.sendMessage()，其中 obtainMessage 方式当数据量过大时，由于 MessageQuene 大小也有限，所以当 message 处理不及时时，会造成先传的数据被覆盖，进而导致数据丢失。</font></p>
+<h1 id="解决方案">解决方案：</h1>
+<p><font color=#999AAA >提示：这里填写该问题的具体解决方案：<br>
+例如：新建一个 Message 对象，并将读取到的数据存入 Message，然后 mHandler.obtainMessage(READ_DATA, bytes, -1, buffer).sendToTarget();换成 mHandler.sendMessage()。</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://dissor.github.io/4I0SsUVUQ/">
+            <span class="flex-auto">DEMO</span>
+          </a>
         
 
 
         <div class="flex justify-between py-8">
-          
-            <div class="prev-post">
-              <a href="https://dissor.github.io/embedded-linux-device-using-gdb/">
-                <h3 class="post-title">
-                  <i class="ri-arrow-left-line"></i>
-                  嵌入式 Linux 中使用 GDB 工具（Embedded Linux device using GDB）
-                </h3>
-              </a>
-            </div>
           
 
           

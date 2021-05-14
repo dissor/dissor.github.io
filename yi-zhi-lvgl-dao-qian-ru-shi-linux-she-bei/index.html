@@ -1,0 +1,719 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>物联指北</title>
+<meta name="description" content="记录嵌入式物联开发技术" />
+<link rel="shortcut icon" href="https://dissor.github.io/favicon.ico?v=1620982789686">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://dissor.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://dissor.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://dissor.github.io/images/avatar.png?v=1620982789686" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">物联指北</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%B8%80-lvgl-%E6%98%AF%E4%BB%80%E4%B9%88">一、LVGL 是什么？</a></li>
+<li><a href="#%E4%BA%8C-%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4">二、使用步骤</a>
+<ul>
+<li><a href="#1%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93">1.克隆仓库</a></li>
+<li><a href="#2%E5%BB%BA%E7%AB%8B%E9%A1%B9%E7%9B%AE">2.建立项目</a></li>
+<li><a href="#3%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">3.配置文件</a></li>
+<li><a href="#4%E5%88%9D%E5%A7%8B%E5%8C%96-lvgl">4.初始化 lvgl</a></li>
+<li><a href="#5%E6%98%BE%E7%A4%BA%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%8F%A3">5.显示设备接口</a></li>
+<li><a href="#6%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%8F%A3">6.输入设备接口</a></li>
+<li><a href="#7%E5%BF%83%E8%B7%B3">7.心跳</a></li>
+<li><a href="#8%E4%BB%BB%E5%8A%A1%E5%A4%84%E7%90%86">8.任务处理</a></li>
+<li><a href="#9%E6%8E%A7%E4%BB%B6%E5%85%B3%E8%81%94%E6%8C%89%E9%94%AE">9.控件关联按键</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://dissor.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">移植 LVGL 到嵌入式 Linux 设备</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-14 / 9 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://lvgl.io/assets/images/img_banner_1.webp" alt="">
+        
+        <div class="post-content yue">
+          <p><font color=#999AAA >提示：目录为自动生成</p>
+</font>
+<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%B8%80-lvgl-%E6%98%AF%E4%BB%80%E4%B9%88">一、LVGL 是什么？</a></li>
+<li><a href="#%E4%BA%8C-%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4">二、使用步骤</a>
+<ul>
+<li><a href="#1%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93">1.克隆仓库</a></li>
+<li><a href="#2%E5%BB%BA%E7%AB%8B%E9%A1%B9%E7%9B%AE">2.建立项目</a></li>
+<li><a href="#3%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">3.配置文件</a></li>
+<li><a href="#4%E5%88%9D%E5%A7%8B%E5%8C%96-lvgl">4.初始化 lvgl</a></li>
+<li><a href="#5%E6%98%BE%E7%A4%BA%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%8F%A3">5.显示设备接口</a></li>
+<li><a href="#6%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%8F%A3">6.输入设备接口</a></li>
+<li><a href="#7%E5%BF%83%E8%B7%B3">7.心跳</a></li>
+<li><a href="#8%E4%BB%BB%E5%8A%A1%E5%A4%84%E7%90%86">8.任务处理</a></li>
+<li><a href="#9%E6%8E%A7%E4%BB%B6%E5%85%B3%E8%81%94%E6%8C%89%E9%94%AE">9.控件关联按键</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</p>
+<h1 id="前言">前言</h1>
+<font color=#999AAA >
+<p>本文介绍移植 LVGL 到嵌入式 Linux，驱动小型 SPI 彩屏的基本方法和步骤。</p>
+<p>当前使用 LVGL 版本为：v7.11.0</p>
+<p>包括：克隆官方仓库、制作显示驱动、制作输入驱动、绘制图形界面、添加消息事件等。</p>
+<p>需要工具：GIT</p>
+<p>显示屏分辨率：128x160@16色深</p>
+<p>官方网址：<a href="https://lvgl.io/">lvgl.io</a></p>
+<p>官方文档：<a href="https://docs.lvgl.io/latest/en/html/index.html">docs.lvgl.io/latest/en/html/index.html</a></p>
+<p>官网仓库：<a href="https://github.com/lvgl/lvgl">github.com/lvgl/lvgl</a></p>
+</font>
+<h1 id="一-lvgl-是什么">一、LVGL 是什么？</h1>
+<font color=#999AAA >
+<p>LVGL（Light and Versatile Graphics Library） 是一个开源图形库，以易于使用的图形元素，美观的视觉效果和低内存占用，提供了创建嵌入式 GUI 的一切。</p>
+</font>
+<h1 id="二-使用步骤">二、使用步骤</h1>
+<h2 id="1克隆仓库">1.克隆仓库</h2>
+<p><font color=#999AAA >代码如下：</p>
+<pre><code class="language-c">git clone https://github.com/lvgl/lvgl.git
+</code></pre>
+<h2 id="2建立项目">2.建立项目</h2>
+<font color=#999AAA >
+<p>LVGL 文件夹位于工程项目下。</p>
+<p>LVGL 包含 app、porting、src、driver 四个文件夹以及 lv_conf_template.h、lvgl.h 两个头文件。</p>
+</font>
+<p><font color=#999AAA >项目结构如下：</p>
+<pre><code class="language-bash">LVGL
+├── app
+├── porting
+├── src
+├── driver
+├── lv_conf_template.h
+└── lvgl.h
+</code></pre>
+<font color=#999AAA >
+<p>📁目录 app 存放自定义的应用程序，项目中主要修改该目录下的文件。</p>
+<p>📁目录 porting 存放 lvgl 的输入输出设备驱动配置，创建项目或更换硬件时，进行修改。</p>
+<p>📁目录 src 存放 lvgl 的官方图形库源码，不需要修改。</p>
+<p>📁目录 driver 存放具体硬件的驱动文件，修改该目录文件时，可能需要配合修改 porting 目录文件。</p>
+<p>📃文件 lv_conf_template.h 是 lvgl 图形库配置文件，必要时进行修改。</p>
+<p>📃文件 lvgl.h 是 lvgl 图形库头文件，保持该位置结构，不需要修改。</p>
+</font>
+<p><font color=#999AAA >项目目录与仓库目录对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>项目目录</th>
+<th>仓库目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>./app</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td>./porting</td>
+<td>./examples/porting</td>
+</tr>
+<tr>
+<td>./src</td>
+<td>./src</td>
+</tr>
+<tr>
+<td>./driver</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td>./lv_conf_template.h</td>
+<td>./lv_conf_template.h</td>
+</tr>
+<tr>
+<td>./lvgl.h</td>
+<td>./lvgl.h</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3配置文件">3.配置文件</h2>
+<font color=#999AAA >
+<p>LVGL 文件夹下 lv_conf_template.h 头文件以及 porting 目录下几个带有 _tempalte 标识的文件，需要打开文件，进行以下修改：</p>
+<ol>
+<li>将开头的 <strong>#if 0</strong> 更改为 <strong>#if 1</strong>。</li>
+<li>将 porting 目录下几个带有 _tempalte.h 标识的头文件中的 <strong>#include &quot;lvgl/lvgl.h&quot;</strong> 改为 <strong>#include &quot;../lvgl.h&quot;</strong>。</li>
+<li>修改 lv_conf_template.h 文件中一些重要配置：
+<ul>
+<li>LV_HOR_RES_MAX：显示器水平分辨率（#define LV_HOR_RES_MAX          (160)）</li>
+<li>LV_VER_RES_MAX：显示器垂直分辨路（#define LV_VER_RES_MAX          (128)）</li>
+<li>LV_COLOR_DEPTH：颜色深度（#define LV_COLOR_DEPTH     16）</li>
+</ul>
+</li>
+</ol>
+</font>
+<h2 id="4初始化-lvgl">4.初始化 lvgl</h2>
+<font color=#999AAA >
+<p>初始化包含三个部分：</p>
+<ol>
+<li>图形库和接口驱动初始化。</li>
+<li>调用图形库应用入口。</li>
+<li>添加图形库任务回调和时基线程。</li>
+</ol>
+</font>
+<p><font color=#999AAA >代码如下：</p>
+<pre><code class="language-c">int main(int argc, char* argv[])
+{
+    pthread_t id1,id_tick,id_ide;
+    int ret;
+    
+    // LVGL 图形库初始化
+    lv_init();
+    // 显示接口初始化
+    lv_port_disp_init();
+    // 输入接口初始化
+    lv_port_indev_init();
+
+    // 图形应用初始化
+    lv_app_init();
+
+    // 图形库任务线程，用于图形库处理任务和事件
+    ret = pthread_create(&amp;id_task,NULL,(void*)thread_lv_task_entry,NULL);
+    if(ret != 0)
+    {
+        printf(&quot;Create lv_task pthread error\n&quot;);
+        exit(1);
+    }
+
+    // 图形库时基线程，用于为图形库提供时基
+    ret = pthread_create(&amp;id_tick,NULL,(void*)thread_lv_tick_entry,NULL);
+    if(ret != 0)
+    {
+        printf(&quot;Create lv_tick pthread error\n&quot;);
+        exit(1);
+    }
+
+    pthread_join(id_task,NULL);
+    pthread_join(id_tick,NULL);
+
+    exit(0);
+}
+
+// 时基线程
+int thread_lv_tick_entry(void)
+{
+    while(1) 
+    {
+        lv_task_handler();
+        usleep(1000);     /* takes microseconds */
+        lv_tick_inc(1); 
+    }
+    return 0;
+}
+
+// 任务线程
+int thread_lv_task_entry(void)
+{
+    while(1) 
+    {
+        lv_task_handler();
+        usleep(5*1000);     /* takes microseconds */
+    }
+    return 0;
+}
+</code></pre>
+<h2 id="5显示设备接口">5.显示设备接口</h2>
+<font color=#999AAA >
+<p>显示设备接口设置，需要修改 lv_port_disp_template.c，主要包括两个结构体（lv_disp_buf_t、lv_disp_drv_t）和三个接口函数（lv_port_disp_init()、disp_init()、disp_flush()）。</p>
+</font>
+<p><font color=#999AAA >函数 lv_port_disp_init() 修改如下：</p>
+<pre><code class="language-c">void lv_port_disp_init(void)
+
+{
+    // 初始化显示硬件驱动
+    disp_init();
+
+// 设置显示缓冲区
+#define FB_BUFF_MODE 1
+
+ // 动态单缓冲，占用内存最小   
+#if (FB_BUFF_MODE == 1)
+    static lv_disp_buf_t draw_buf_dsc;
+    static lv_color_t draw_buf_1[LV_HOR_RES_MAX * 10];                        
+    lv_disp_buf_init(&amp;draw_buf_dsc, draw_buf_1, NULL, LV_HOR_RES_MAX * 10); 
+#endif
+
+// 双缓冲，显示效果最佳，内存占用最大
+#if (FB_BUFF_MODE == 2)
+    static lv_disp_buf_t draw_buf_dsc;
+    static lv_color_t draw_buf_2_1[LV_HOR_RES_MAX * LV_VER_RES_MAX];       
+    static lv_color_t draw_buf_2_2[LV_HOR_RES_MAX * LV_VER_RES_MAX];          
+    lv_disp_buf_init(&amp;draw_buf_dsc, draw_buf_2_1, draw_buf_2_2, LV_HOR_RES_MAX * LV_VER_RES_MAX); 
+#endif
+
+    // 显示驱动器的描述符
+    lv_disp_drv_t disp_drv;      
+    // 初始化显示驱动器
+    lv_disp_drv_init(&amp;disp_drv); 
+
+    // 设置分辨率
+    disp_drv.hor_res = LV_HOR_RES_MAX;
+    disp_drv.ver_res = LV_VER_RES_MAX;
+
+    // 将缓冲区的内容复制到显示器
+    disp_drv.flush_cb = disp_flush;
+
+    // 设置显示缓冲区
+    disp_drv.buffer = &amp;draw_buf_dsc;
+
+    // 最后注册显示驱动
+    lv_disp_drv_register(&amp;disp_drv);
+
+}
+
+</code></pre>
+<p><font color=#999AAA >函数 disp_init() 修改如下：</p>
+<pre><code class="language-c">// 初始化显示器和所需的外设
+static void disp_init(void)
+{
+    // SPI 外设初始化
+    lcd_spi_init();
+    // 液晶屏初始化
+	LCD_Init();
+}
+</code></pre>
+<p><font color=#999AAA >函数 disp_flush() 修改如下：</p>
+<pre><code class="language-c">// 将内部缓冲区的内容刷新到显示器的特定区域
+static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
+{
+    // 设置显示区域（开窗口）
+    LCD_Address_Set(area-&gt;x1,area-&gt;y1,area-&gt;x2,area-&gt;y2);
+
+    for(y = area-&gt;y1; y &lt;= area-&gt;y2; y++) {
+        for(x = area-&gt;x1; x &lt;= area-&gt;x2; x++) {
+            // 将所有的像素一一打印在屏幕上
+            LCD_WR_DATA(*(uint16_t*)color_p);
+            color_p++;
+        }
+    }
+
+    // 通知图形库，已经准备好进行刷新（固有存在）
+    lv_disp_flush_ready(disp_drv);
+}
+</code></pre>
+<h2 id="6输入设备接口">6.输入设备接口</h2>
+<font color=#999AAA >
+<p>LVGL 输入设备需要选择键盘输入（Keypad），而不是按键输入（Button）。</p>
+<p>显示设备接口设置，需要修改 lv_port_indev_template.c，主要包括两个结构体（lv_indev_t、lv_indev_drv_t）和三个接口函数（keypad_init()、keypad_read()、keypad_get_key()）。</p>
+</font>
+<p><font color=#999AAA >声明设备全局变量：</p>
+<pre><code class="language-c">lv_indev_t * indev_keypad;
+</code></pre>
+<p><font color=#999AAA >函数 lv_port_indev_init() 修改如下：</p>
+<pre><code class="language-c">void lv_port_indev_init(void)
+{
+    // 输入设备的描述符
+    lv_indev_drv_t indev_drv;
+
+    // 初始化键盘
+    keypad_init();
+
+    // 注册键盘
+    lv_indev_drv_init(&amp;indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_KEYPAD;
+    indev_drv.read_cb = keypad_read;
+    indev_keypad = lv_indev_drv_register(&amp;indev_drv);
+}
+</code></pre>
+<p><font color=#999AAA >函数 keypad_init() 修改如下：</p>
+<pre><code class="language-c">// 初始化键盘和所需的外设
+static void keypad_init(void)
+{
+
+}
+</code></pre>
+<p><font color=#999AAA >函数 lv_port_indev_init() 修改如下：</p>
+<pre><code class="language-c">// 在键盘函数中搭配使用（目前无使用）
+static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
+{
+    (*x) = 0;
+    (*y) = 0;
+}
+</code></pre>
+<p><font color=#999AAA >函数 keypad_read() 修改如下：</p>
+<pre><code class="language-c">// 将由库调取，以读取鼠标（需要包含上面的鼠标接口）
+static bool keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+{
+    static uint32_t last_key = 0;
+
+    // 获取鼠标坐标
+    mouse_get_xy(&amp;data-&gt;point.x, &amp;data-&gt;point.y);
+
+    // 获取键值
+    uint32_t act_key = keypad_get_key();
+    if(act_key != 0) {
+        data-&gt;state = LV_INDEV_STATE_PR;
+
+        last_key = act_key;
+    } else {
+        data-&gt;state = LV_INDEV_STATE_REL;
+    }
+
+    data-&gt;key = last_key;
+
+    // 图形库要求返回 false（固有存在）
+    return false;
+}
+</code></pre>
+<p><font color=#999AAA >函数 keypad_get_key() 修改如下：</p>
+<pre><code class="language-c">// 获取当前键值，无动作时，返回零值
+static uint32_t keypad_get_key(void)
+{
+    // 自定义键值读取驱动
+	uint32_t status;
+	uint16_t value_tmp;
+	
+    // 获取键值，由定时器（或任务）调用按键扫描，实时刷新全局变量 KeyCtrl.EXKeyValue
+	value_tmp = KeyCtrl.EXKeyValue;
+    // 读取完成后，清除键值
+	KeyCtrl.EXKeyValue = 0;
+
+    // 键值与图形库事件进行映射
+	switch (value_tmp)
+    {
+    	case 0x0008:
+			status = LV_KEY_PREV;
+    		break;
+
+		case 0x0010:
+			status = LV_KEY_NEXT;
+    		break;
+		
+		case 0x0004:
+			status = LV_KEY_LEFT;
+    		break;
+		
+    	case 0x0020:
+			status = LV_KEY_RIGHT;
+    		break;
+		
+		case 0x0002:
+			status = LV_KEY_ENTER;
+    		break;
+		case 0x0001:
+			status = LV_KEY_ESC;
+    		break;
+    	default:
+			status = 0;
+    		break;
+    }
+
+    // 返回键值事件
+    return status;
+}
+</code></pre>
+<h2 id="7心跳">7.心跳</h2>
+<p><font color=#999AAA >LVGL 需要提供系统时基，用于图形库获取动画事件和任务执行时间。</p>
+<p><font color=#999AAA >LVGL 通过定时调用 lv_tick_inc(tick_period) 函数，并以毫秒为单位告知调用周期。</p>
+<p><font color=#999AAA >创建时基线程，代码如下：</p>
+<pre><code class="language-c">int thread_lv_tick_entry(void)
+{
+    while(1) 
+    {
+        usleep(1000);     /* takes microseconds */
+        lv_tick_inc(1000); 
+    }
+
+    return 0;
+}
+
+int main(int argc, char* argv[])
+{
+    ……
+    ret = pthread_create(&amp;id_tick,NULL,(void*)thread_lv_tick_entry,NULL);
+    if(ret != 0)
+    {
+        printf(&quot;Create pthread error\n&quot;);
+        exit(1);
+    }
+    ……
+    pthread_join(id_tick,NULL);
+    ……
+}
+</code></pre>
+<h2 id="8任务处理">8.任务处理</h2>
+<p><font color=#999AAA >LVGL 通过定时调用 lv_task_handler() 函数，以处理图形库系统任务和事件，非严格计时，大约 5 毫秒即可。</p>
+<p><font color=#999AAA >创建任务线程，代码如下：</p>
+<pre><code class="language-c">int thread_lv_task_entry(void)
+{
+    while(1)
+    {
+        usleep(5*1000);
+        lv_task_handler();
+    }
+
+    return 0;
+}
+</code></pre>
+<h2 id="9控件关联按键">9.控件关联按键</h2>
+<p><font color=#999AAA >LVGL 中使用键盘可以完全控制用户界面，需要将键盘控制的对象添加到组（Group）中，同一时间，只有一个焦点对象可以接收动作。</p>
+<p>控件关联按键，步骤如下：</p>
+<ol>
+<li>使用 lv_group_t * group = lv_group_create() 创建组；</li>
+<li>使用 lv_group_add_obj(group, obj) 将对象添加到组中；</li>
+<li>使用 lv_indev_set_group(indev_keypad, group) 将输入设备分配给组，实现按键导航。</li>
+</ol>
+</font>
+<p><font color=#999AAA >示例：为控件添加按键事件</p>
+<pre><code class="language-c">static void user_login_open(void)
+{
+   // 创建组
+   lv_group_t * group = lv_group_create();
+   
+   // 基于当前屏幕，生成简单对象控件
+   lv_obj_t * obj = lv_obj_create(lv_scr_act(), NULL);
+   // 设置对象控件的大小
+   lv_obj_set_size(obj, 160, 30);
+   // 设置对象控件的对齐方式
+   lv_obj_align(obj, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+   // 设置对象控件的事件回调
+   lv_obj_set_event_cb(obj, user_login_operate_event_cb);
+
+   // 添加对象控件到组中
+   lv_group_add_obj(group, obj);
+   // 添加组到输入设备导航
+   lv_indev_set_group(indev_keypad, group);
+}
+</code></pre>
+<h1 id="总结">总结</h1>
+<p><font color=#999AAA >以上的内容，简单介绍了如何移植 LVGL 到嵌入式 Linux 设备，而 LVGL 提供了大量能使我们快速便捷地开发图形界面的函数和方法。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://dissor.github.io/UOa7n2VQf/">
+            <span class="flex-auto">LVGL</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://dissor.github.io/yi-zhi-lvgl-dao-stm32-luo-ji-ping-tai/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  移植 LVGL 到 STM32 裸机设备
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://dissor.github.io/cmake-tutorial/">
+                <h3 class="post-title">
+                  CMake 使用指南（CMake Tutorial）
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '694c0016224be4631730',
+    clientSecret: '5457f28c172441bb0067c1bf0cb121706b577f1c',
+    repo: 'dissor.github.io',
+    owner: 'Dissor',
+    admin: ['Dissor'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://dissor.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
